@@ -2,8 +2,10 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
 import { Observable } from "zen-observable-ts";
+import { Observable as RxJsObservable, take } from 'rxjs';
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
@@ -52,9 +54,13 @@ export type OnEnteredValueSubscription = {
 };
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class APIService {
+  private _baseUrl = 'https://cj9vcp768f.execute-api.eu-central-1.amazonaws.com';
+
+  constructor(private http: HttpClient) {}
+
   async EnterValue(value: ValueInput): Promise<EnterValueMutation> {
     const statement = `mutation EnterValue($value: ValueInput!) {
         enterValue(value: $value) {
@@ -66,13 +72,14 @@ export class APIService {
         }
       }`;
     const gqlAPIServiceArguments: any = {
-      value
+      value,
     };
     const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
+      graphqlOperation(statement, gqlAPIServiceArguments),
     )) as any;
     return <EnterValueMutation>response.data.enterValue;
   }
+
   async ListValues(): Promise<Array<ListValuesQuery>> {
     const statement = `query ListValues {
         listValues {
@@ -86,9 +93,8 @@ export class APIService {
     const response = (await API.graphql(graphqlOperation(statement))) as any;
     return <Array<ListValuesQuery>>response.data.listValues;
   }
-  OnEnteredValueListener: Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onEnteredValue">>
-  > = API.graphql(
+
+  OnEnteredValueListener: Observable<SubscriptionResponse<Pick<__SubscriptionContainer, "onEnteredValue">>> = API.graphql(
     graphqlOperation(
       `subscription OnEnteredValue {
         onEnteredValue {
@@ -98,9 +104,12 @@ export class APIService {
           measure_value
           time
         }
-      }`
-    )
-  ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onEnteredValue">>
-  >;
+      }`,
+    ),
+  ) as Observable<SubscriptionResponse<Pick<__SubscriptionContainer, "onEnteredValue">>>;
+
+  public getHistory(): RxJsObservable<any> {
+    return this.http.get(this._baseUrl + '/history')
+    .pipe(take(1));
+  }
 }
