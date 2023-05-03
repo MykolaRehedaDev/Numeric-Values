@@ -5,10 +5,11 @@ export default {
   config(_input) {
     return {
       name: "numeric-values-app",
-      region: "us-east-1",
+      region: "eu-central-1",
+      profile: 'mykolareheda',
     };
   },
   stacks(app) {
     app.stack(API);
-  }
+  },
 } satisfies SSTConfig;
