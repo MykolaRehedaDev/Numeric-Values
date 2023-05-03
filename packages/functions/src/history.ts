@@ -11,7 +11,7 @@ const queryClient = new AWS.TimestreamQuery({
 
 export const handler = ApiHandler(async (_evt) => {
   const params = {
-    QueryString: 'SELECT * FROM "numericvalue"."values" ORDER BY "time" DESC',
+    QueryString: 'SELECT * FROM "numericvalues"."values" ORDER BY "time" DESC',
   };
 
   let queryResponse;
@@ -20,9 +20,7 @@ export const handler = ApiHandler(async (_evt) => {
     queryResponse = JSON.stringify(response);
     console.log('Success!');
   })
-  .catch(() => {
-    console.error('Error while querying');
-  });
+  .catch((error) => console.error('Error while querying', error));
 
   return JSON.parse(queryResponse).Rows;
 });
