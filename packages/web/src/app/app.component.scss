@@ -1,23 +1,77 @@
 .app {
-  input {
-    width: 100px;
-    height: 30px;
-  }
-
-  button {
-    height: 30px;
-    width: 80px;
-  }
+  padding: 20px;
 
   &__history {
     margin-top: 20px;
   }
 
-  &__history-records {
-    width: 200px;
+  &__history-records-wrapper {
+    height: 400px;
+    width: 250px;
+    overflow: auto;
+    box-shadow: 0 0 5px gray inset;
 
+    border: solid 2px gray;
+    border-radius: 12px;
+  }
+
+  &__history-records {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    div {
+      padding: 10px;
+      border: solid 1px gray;
+    }
+
+    div:first-child {
+      flex-basis: 20%;
+    }
+
+    div:last-child {
+      flex-grow: 1;
+    }
+  }
+
+  input {
+    outline: none;
+    width: 100px;
+    height: 40px;
+    margin: 0 10px 10px 0;
+    text-align: center;
+    font-size: 22px;
+
+    box-shadow: 0 0 5px gray inset;
+    border-radius: 12px;
+    border: none;
+  }
+
+  button {
+    height: 35px;
+    width: 80px;
+    cursor: pointer;
+
+    border: none;
+    background: none;
+    box-shadow: 0 0 5px gray;
+    border-radius: 12px;
+    font-size: 16px;
+
+    transition: all .1s ease-in;
+
+    &:hover {
+      background: gray;
+      color: white;
+      box-shadow: none;
+    }
+
+    &:active {
+      background: #a19f9f;
+    }
+  }
+
+  button[type="button"] {
+    margin-bottom: 10px;
   }
 }

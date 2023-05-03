@@ -32,6 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
           value: value.value.data?.onEnteredValue.measure_value!,
           time: new Date(+value.value.data?.onEnteredValue.time!).toLocaleString(),
         };
+        if (this.history.length)
+          this.getHistory();
       },
       error: (error) => console.error(error.message),
     });

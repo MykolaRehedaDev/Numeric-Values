@@ -9,9 +9,11 @@
 
   <button class="app__history" type="button" (click)="getHistory()">History</button>
   <ng-container *ngIf="history.length || !loadingHistory$.value; else loading">
-    <div class="app__history-records" *ngFor="let record of history">
-      <div>{{ record.value }}</div>
-      <div>{{ record.time }}</div>
+    <div class="app__history-records-wrapper" *ngIf="history.length">
+      <div class="app__history-records" *ngFor="let record of history">
+        <div>{{ record.value }}</div>
+        <div>{{ record.time }}</div>
+      </div>
     </div>
   </ng-container>
 
