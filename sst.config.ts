@@ -1,5 +1,6 @@
 import { SSTConfig } from "sst";
 import { ApiGatewayStack } from "./stacks/ApiGateway";
+import { AppSyncStack } from './stacks/AppSyncApi';
 
 export default {
   config(_input) {
@@ -10,6 +11,8 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(ApiGatewayStack);
+    app
+    .stack(ApiGatewayStack)
+    .stack(AppSyncStack);
   },
 } satisfies SSTConfig;
