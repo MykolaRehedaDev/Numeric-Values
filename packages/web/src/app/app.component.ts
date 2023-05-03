@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ZenObservable } from 'zen-observable-ts';
 
 import { __SubscriptionContainer, APIService, SubscriptionResponse } from './API.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public currentData: { value: string, time: string } | null = null;
   private currentDataSubscription: ZenObservable.Subscription;
+
+  public loadingHistory$ = new BehaviorSubject<boolean>(false);
+  public loadingCurrentValue$ = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly api: APIService) {}
 
@@ -31,15 +35,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public enterValue(): void {
+    this.loadingCurrentValue$.next(true);
     this.api.EnterValue({
       dimension: 'test',
       measure_value: this.inputValue!.toString(),
       measure_name: 'value',
     }).then(() => console.log('Success!'))
-    .catch((error) => console.error(error.message));
+    .catch((error) => console.error(error.message))
+    .finally(() => this.loadingCurrentValue$.next(false));
   }
 
   public getHistory(): void {
+    this.loadingHistory$.next(true);
+    this.history = [];
     this.api.getHistory().subscribe({
       next: (response: any) => {
         for (const property in response) {
@@ -50,8 +58,12 @@ export class AppComponent implements OnInit, OnDestroy {
             });
           }
         }
+        this.loadingHistory$.next(false);
       },
-      error: (error) => console.error('---ERROR---', error.message),
+      error: (error) => {
+        console.error('---ERROR---', error.message);
+        this.loadingHistory$.next(false);
+      },
     });
   }
 

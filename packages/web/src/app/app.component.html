@@ -2,12 +2,14 @@
 
   <input type="number" [(ngModel)]="inputValue">
   <button type="submit" (click)="enterValue()" [disabled]="!inputValue">Submit</button>
+  <div *ngIf="loadingCurrentValue$ | async">Loading...</div>
   <div class="app__current-value" *ngIf="currentData; else noCurrentData">
     <div>Value: {{ currentData.value }}</div>
     <div>Time: {{ currentData.time }}</div>
   </div>
 
   <button class="app__history" type="button" (click)="getHistory()">History</button>
+  <div *ngIf="loadingHistory$ | async">Loading...</div>
   <ng-container *ngIf="history.length">
     <div class="app__history-records" *ngFor="let record of history">
       <div>{{ record.value }}</div>
