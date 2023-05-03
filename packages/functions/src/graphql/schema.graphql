@@ -1,0 +1,25 @@
+type Value {
+    dimension: String!
+    measure_name: String!
+    measure_value: String!
+    time: String
+}
+
+input ValueInput {
+    dimension: String!
+    measure_name: String!
+    measure_value: String!
+}
+
+type Query {
+    listValues: [Value]
+}
+
+type Mutation {
+    enterValue(value: ValueInput!): Value
+}
+
+type Subscription {
+    onEnteredValue: Value @aws_subscribe(mutations: ["enterValue"])
+}
+
