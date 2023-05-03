@@ -12,10 +12,10 @@ ApiGateway used to process requests to retrieve data from Timestream db. (Histor
 
 AppSync used to synchronize data between clients and push new entered data.
 
-GET requests are handled by functions that are in the history.ts and getLastValue.ts files, which are placed in the 'functions' directory.
+`GET` requests are handled by functions that are in the `history.ts` and `getLastValue.ts` files, which are placed in the `functions` directory.
 
 Last value handler
-```
+```javascript
 export const handler = ApiHandler(async (_evt) => {
   const params = {
     QueryString: 'SELECT * FROM "numericvalues"."values" ORDER BY "time" DESC LIMIT 1',
@@ -37,7 +37,7 @@ export const handler = ApiHandler(async (_evt) => {
 ```
 
 History handler
-```
+```javascript
 export const handler = ApiHandler(async (_evt) => {
   const params = {
     QueryString: 'SELECT * FROM "numericvalues"."values" ORDER BY "time" DESC',
@@ -55,10 +55,10 @@ export const handler = ApiHandler(async (_evt) => {
 });
 ```
 
-The enterValue function is responsible for writing a new value to the database and returning it to the client. The main.ts function processes requests to AppSync and distributes them among the functions. 
+The `enterValue` function is responsible for writing a new value to the database and returning it to the client. The `main.ts` function processes requests to AppSync and distributes them among the functions. 
 
 Enter value handler
-```
+```javascript
 export const handler = ApiHandler(async (_evt) => {
   console.log('Writing records...');
   const currentTime = Date.now().toString();
@@ -97,7 +97,7 @@ export const handler = ApiHandler(async (_evt) => {
 });
 ```
 
-The graphql directory stores the schema and type for the value.
+The `graphql` directory stores the schema and type for the value.
 
 ```
 type Value {
