@@ -3,13 +3,15 @@
   <input type="number" [(ngModel)]="inputValue">
   <button type="submit" (click)="enterValue()" [disabled]="!inputValue">Submit</button>
   <div class="app__current-value" *ngIf="currentData; else noCurrentData">
-    {{ currentData.value + ': ' + currentData.time }}
+    <div>Value: {{ currentData.value }}</div>
+    <div>Time: {{ currentData.time }}</div>
   </div>
 
   <button class="app__history" type="button" (click)="getHistory()">History</button>
   <ng-container *ngIf="history.length">
     <div class="app__history-records" *ngFor="let record of history">
-      {{ record.value + ': ' + record.time }}
+      <div>{{ record.value }}</div>
+      <div>{{ record.time }}</div>
     </div>
   </ng-container>
 

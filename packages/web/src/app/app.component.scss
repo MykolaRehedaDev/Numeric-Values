@@ -1,0 +1,23 @@
+.app {
+  input {
+    width: 100px;
+    height: 30px;
+  }
+
+  button {
+    height: 30px;
+    width: 80px;
+  }
+
+  &__history {
+    margin-top: 20px;
+  }
+
+  &__history-records {
+    width: 200px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
