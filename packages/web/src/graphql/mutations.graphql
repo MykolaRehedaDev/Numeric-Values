@@ -1,0 +1,9 @@
+# this is an auto generated file. This will be overwritten
+mutation EnterValue($value: ValueInput!) {
+  enterValue(value: $value) {
+    dimension
+    measure_name
+    measure_value
+    time
+  }
+}
