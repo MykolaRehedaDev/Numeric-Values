@@ -22,6 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private readonly api: APIService) {}
 
   public ngOnInit(): void {
+    this.api.getLastValue().subscribe({
+      next: (value) => this.currentData = { value: value.measure_value, time: value.time },
+    });
     this.currentDataSubscription = this.api.OnEnteredValueListener
     .subscribe({
       next: (value: SubscriptionResponse<Pick<__SubscriptionContainer, "onEnteredValue">>) => {
