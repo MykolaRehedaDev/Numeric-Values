@@ -57,7 +57,7 @@ export type OnEnteredValueSubscription = {
   providedIn: "root",
 })
 export class APIService {
-  private _baseUrl = ' https://445i0tdrx0.execute-api.eu-central-1.amazonaws.com';
+  private _baseUrl = 'https://445i0tdrx0.execute-api.eu-central-1.amazonaws.com';
 
   constructor(private http: HttpClient) {}
 
