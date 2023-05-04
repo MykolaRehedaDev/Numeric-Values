@@ -19,39 +19,39 @@ const writeClient = new AWS.TimestreamWrite({
   secretAccessKey: constants.SECRET_ACCESS_KEY,
 });
 
-export const handler = ApiHandler(async (_evt) => {
+export const handler = ApiHandler(async (_evt: any) => {
   console.log('Writing records...');
   const currentTime = Date.now().toString();
 
   const value = {
-    Dimensions: [ {
+    Dimensions: [{
       Name: 'dimension',
-      Value: `${ _evt.dimension }`,
+      Value: `${_evt.dimension}`,
       DimensionValueType: 'VARCHAR',
-    } ],
-    MeasureName: `${ _evt.measure_name }`,
-    MeasureValue: `${ _evt.measure_value }`,
+    }],
+    MeasureName: `${_evt.measure_name}`,
+    MeasureValue: `${_evt.measure_value}`,
     MeasureValueType: "VARCHAR",
     Time: currentTime,
   };
   const params = {
     DatabaseName: 'numericvalues',
     TableName: 'values',
-    Records: [ value ],
+    Records: [value],
   }
 
-  const request = writeClient.writeRecords(params);
+  const request: any = writeClient.writeRecords(params);
 
   await request.promise()
-  .then(() => console.log('Write records successful'))
-  .catch((error) => {
-    console.error('Error writing records', error);
-    if (error.code === 'RejectedRecordsException') {
-      const responsePayload = JSON.parse(request.response.httpResponse.body.toString());
-      console.log("RejectedRecords: ", responsePayload.RejectedRecords);
-      console.log("Other records were written successfully. ");
-    }
-  });
+    .then(() => console.log('Write records successful'))
+    .catch((error: any) => {
+      console.error('Error writing records', error);
+      if (error.code === 'RejectedRecordsException') {
+        const responsePayload = JSON.parse(request.response.httpResponse.body.toString());
+        console.log("RejectedRecords: ", responsePayload.RejectedRecords);
+        console.log("Other records were written successfully. ");
+      }
+    });
 
   return { ..._evt, time: currentTime };
 });
